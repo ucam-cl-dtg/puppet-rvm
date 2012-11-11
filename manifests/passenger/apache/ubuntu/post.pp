@@ -16,7 +16,7 @@ class rvm::passenger::apache::ubuntu::post(
       command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
       creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
       logoutput => 'on_failure',
-      require   => [Rvm_gem['passenger'], Class['apache2'] , Package['build-essential', 'apache2-prefork-dev',
+      require   => [Rvm_gem['passenger'] , Package['build-essential', 'apache2-prefork-dev',
                                                   'libapr-dev', 'libaprutil-dev', 'libcurl4-openssl-dev']],
   }
 
