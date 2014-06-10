@@ -55,7 +55,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     case desc
     when /^\*\*\*/, /^\s*$/, /^\s+/; return nil
     when /gem: not found/; return nil
-    when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
+    # when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
+    when /^(\S+)\s+\((\d+.*)\)/
       name = $1
       version = $2.split(/,\s*/)
       return {
@@ -72,8 +73,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   def install(useversion = true)
     command = gembinary + ['install']
     command << "-v" << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
-    # Always include dependencies
-    command << "--include-dependencies"
+    # Dependencies are now installed by default
+    # command << "--include-dependencies"
 
     if source = resource[:source]
       begin
